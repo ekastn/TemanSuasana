@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Check‑in Mood – Teman Suasana</title>
+<link rel="stylesheet" href="../css/styles.css"/></head><body>
+<div class="wrapper">
+  <aside class="sidebar">
+    <h2>🔔 Teman Suasana</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a class="active" href="checkin.html">Check‑in Mood</a></li>
+      <li><a href="history.html">Riwayat Mood</a></li>
+      <li><a href="reflection.html">Refleksi Harian</a></li>
+    </ul>
+  </aside>
+  <main class="main">
+    <h1>Check‑in Mood</h1><p>Catat suasana hati kamu hari ini.</p>
+    <div class="stats" style="flex-wrap:nowrap">
+      <form id="checkinForm" style="flex:1">
+        <h3>Pilih Mood</h3>
+        <div style="display:flex;gap:.5rem;margin:.5rem 0">
+          <label><input type="radio" name="mood" value="🤯" required/> 🤯</label>
+          <label><input type="radio" name="mood" value="😡"/> 😡</label>
+          <label><input type="radio" name="mood" value="😐"/> 😐</label>
+          <label><input type="radio" name="mood" value="😊"/> 😊</label>
+          <label><input type="radio" name="mood" value="😆"/> 😆</label>
+        </div>
+        <label>Nilai (1‑10):
+          <input type="range" id="score" min="1" max="10" value="5"/>
+          <span id="scoreVal">5</span>/10
+        </label>
+        <label>Catatan
+          <textarea id="note" rows="4" placeholder="Catatan (opsional)"></textarea>
+        </label>
+        <h3>Tag perasaan</h3><div id="tagList" style="display:flex;flex-wrap:wrap;gap:.5rem"></div>
+        <button type="submit">Simpan Mood</button>
+      </form>
+      <div style="flex:1">
+        <h3>Check‑in Terakhir</h3><div id="lastEntry"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="module" src="../js/checkin.js"></script>
+</body></html>

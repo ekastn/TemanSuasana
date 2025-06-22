@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Teman Suasana – Demo Offline</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{--blue:#4c6ef5;--purple:#9c36b5;--text:#333;--bg:#fafafa;--card:#fff;--muted:#777}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Inter",sans-serif}
+    body{display:flex;min-height:100vh;background:var(--bg);color:var(--text)}
+    /* sidebar */
+    .sidebar{width:220px;background:var(--card);border-right:1px solid #eee;padding:1rem}
+    .sidebar h1{font-size:1.1rem;margin-bottom:1rem}
+    .sidebar ul{list-style:none}
+    .sidebar li{padding:.4rem .6rem;margin:.4rem 0;border-radius:6px;cursor:pointer}
+    .sidebar li.active,.sidebar li:hover{background:#eee;font-weight:600}
+    /* main */
+    main{flex:1;padding:1.5rem;overflow-y:auto}
+    header h2{margin-bottom:.3rem}
+    header p{color:var(--muted);margin-bottom:1rem;font-size:.9rem}
+    .hidden{display:none}
+    /* cards & panels */
+    .cards,.stats{display:grid;gap:1rem;margin-bottom:1rem}
+    @media(min-width:700px){.cards{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));}.stats{grid-template-columns:repeat(3,1fr)}}
+    .card,.stat,.panel{background:var(--card);border:1px solid #eee;border-radius:8px;padding:1rem;text-align:center}
+    .card span,.stat span{display:block;font-size:1.6rem;font-weight:700}
+    .card small{color:var(--muted);font-size:.75rem}
+    .panel{text-align:left;margin-bottom:1rem}
+    .grid{display:grid;gap:1rem}
+    @media(min-width:800px){.grid{grid-template-columns:1fr 1fr}}
+    /* controls */
+    .emoji-picker{display:flex;gap:.5rem;margin:.5rem 0}
+    .emoji-picker button{font-size:1.6rem;border:1px solid #ccc;background:#fff;padding:.35rem .55rem;border-radius:8px;cursor:pointer}
+    .emoji-picker button.active{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+    .tag{display:inline-block;padding:.25rem .6rem;border:1px solid #ccc;border-radius:999px;font-size:.8rem;margin:.2rem;cursor:pointer}
+    .tag.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .btn{background:var(--blue);color:#fff;border:none;padding:.6rem 1.1rem;border-radius:6px;cursor:pointer}
+    .btn.block{width:100%}
+    /* list */
+    .list{list-style:none;display:flex;flex-direction:column;gap:1rem}
+    .entry{background:var(--card);border:1px solid #eee;border-radius:8px;padding:1rem}
+    .entry h4{margin-bottom:.25rem;font-size:1rem}
+    .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
+    .chip{background:#eee;border-radius:999px;padding:.15rem .5rem;font-size:.75rem}
+    /* tabs & reflection */
+    .tabs{display:flex;margin-bottom:1rem}
+    .tab{flex:1;padding:.6rem;border:none;background:#f5f5f5;cursor:pointer}
+    .tab.active{background:#e0e0e0;font-weight:600}
+    .grid-reflect{display:grid;gap:1rem}
+    @media(min-width:800px){.grid-reflect{grid-template-columns:1fr 1fr}}
+    textarea{width:100%;padding:.5rem;border:1px solid #ccc;border-radius:6px;margin-top:.3rem;min-height:100px}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <h1>🧘‍♀️ Teman Suasana</h1>
+    <ul>
+      <li data-page="dashboard" class="active">Dashboard</li>
+      <li data-page="checkin">Check‑in Mood</li>
+      <li data-page="history">Riwayat Mood</li>
+      <li data-page="reflection">Refleksi Harian</li>
+    </ul>
+  </aside>
+
+  <main>
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page">
+      <header><h2>Dashboard</h2><p>Ringkasan suasana hati & aktivitas Anda.</p></header>
+      <div class="cards">
+        <div class="card"><p>Mood Hari Ini</p><span id="dashToday">--/10</span></div>
+        <div class="card"><p>Streak</p><span id="dashStreak">-- hari</span></div>
+        <div class="card"><p>Check‑in Bulan Ini</p><span id="dashMonth">--</span><small>Total entri</small></div>
+      </div>
+      <div class="panel"><h3>5 Check‑in Terbaru</h3><ul id="dashRecent" class="list"></ul></div>
+    </section>
+
+    <!-- CHECK‑IN -->
+    <section id="checkin" class="page hidden">
+      <header><h2>Check‑in Mood</h2><p>Catat suasana hati kamu hari ini.</p></header>
+      <div class="grid">
+        <div class="panel">
+          <h3>Pilih Mood</h3>
+          <div class="emoji-picker" id="picker"></div>
+          <input type="range" id="range" min="1" max="10" value="5"><p>Nilai: <span id="rval">5</span>/10</p>
+        </div>
+        <div class="panel">
+          <h3>Detail</h3>
+          <textarea id="note" placeholder="Catatan (opsional)"></textarea>
+          <p style="margin-top:.6rem">Tag perasaan</p>
+          <div id="tags"></div>
+          <button id="saveMood" class="btn block" style="margin-top:1rem">Simpan Mood</button>
+        </div>
+      </div>
+      <div class="panel"><h3>Check‑in Terakhir</h3><div id="last" class="muted">Belum ada data.</div></div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="history" class="page hidden">
+      <header><h2>Riwayat Mood</h2><p>Lihat perjalanan mood kamu.</p></header>
+      <div class="stats">
+        <div class="stat"><p>Rata‑rata</p><span id="statAvg">--</span></div>
+        <div class="stat"><p>Hari Terbaik</p><span id="statBest">--</span></div>
+        <div class="stat"><p>Total Check‑in</p><span id="statTotal">--</span></div>
+      </div>
+      <ul id="histList" class="list"></ul>
+    </section>
+
+    <!-- REFLECTION -->
+    <section id="reflection" class="page hidden">
+      <header><h2>Refleksi Harian</h2><p>Tuliskan insight dari hari kamu.</p></header>
+      <div class="tabs"><button class="tab active" data-tab="today">Refleksi Hari Ini</button><button class="tab" data-tab="log">Riwayat</button></div>
+      <div id="reflectForm">
+        <div class="grid-reflect">
+          <label>🌟 Hal terbaik hari ini?<textarea id="q1"></textarea></label>
+          <label>⚡ Tantangan hari ini?<textarea id="q2"></textarea></label>
+          <label>💡 Pelajaran hari ini?<textarea id="q3"></textarea></label>
+          <label>🎯 Harapan besok?<textarea id="q4"></textarea></label>
+        </div>
+        <button id="saveRef" class="btn block" style="margin-top:1rem">Simpan Refleksi</button>
+      </div>
+      <ul id="refList" class="list hidden"></ul>
+    </section>
+  </main>
+
+<script>
+/* ---------- STATE + DUMMY ---------- */
+const seedMoods=[{score:8,emoji:"😊",note:"Hari produktif, proyek selesai.",tags:["produktif","excited"],createdAt:Date.now()-86400000},{score:6,emoji:"😐",note:"Ada kendala kecil.",tags:["stress"],createdAt:Date.now()-172800000},{score:4,emoji:"😖",note:"Hari berat, deadline banyak.",tags:["stress","lelah"],createdAt:Date.now()-259200000}].map(o=>({...o,createdAt:new Date(o.createdAt).toISOString()}));
+const seedRefs=[{date:Date.now()-86400000,q1:"Presentasi sukses",q2:"Deadline ketat",q3:"Komunikasi penting",q4:"Revisi dokumen"},{date:Date.now()-172800000,q1:"Meeting lancar",q2:"Downtime 1 jam",q3:"Perlu cadangan",q4:"Laporan bulanan"}].map(o=>({...o,date:new Date(o.date).toISOString()}));
+if(!localStorage.getItem("moods"))localStorage.setItem("moods",JSON.stringify(seedMoods));
+if(!localStorage.getItem("refs"))localStorage.setItem("refs",JSON.stringify(seedRefs));
+const getMoods=()=>JSON.parse(localStorage.getItem("moods"));
+const setMoods=d=>localStorage.setItem("moods",JSON.stringify(d));
+const getRefs=()=>JSON.parse(localStorage.getItem("refs"));
+const setRefs=d=>localStorage.setItem("refs",JSON.stringify(d));
+
+/* ---------- NAVIGATION ---------- */
+const pages=document.querySelectorAll(".page");
+function show(id){pages.forEach(p=>p.id===id?p.classList.remove("hidden"):p.classList.add("hidden"));document.querySelectorAll(".sidebar li").forEach(li=>li.dataset.page===id?li.classList.add("active"):li.classList.remove("active"));if(id==='dashboard')renderDashboard();if(id==='history')renderHistory();if(id==='reflection')renderRefLog();}
+document.querySelectorAll(".sidebar li").forEach(li=>li.onclick=()=>show(li.dataset.page));
+
+/* ---------- CHECKIN ---------- */
+const emojis=["😱","😖","😐","😊","😄"];
+const picker=document.getElementById('picker');
+emojis.forEach((e,i)=>{const b=document.createElement('button');b.textContent=e;b.onclick=()=>{document.querySelectorAll('.emoji-picker button').forEach(x=>x.classList.remove('active'));b.classList.add('active');range.value=(i+1)*2;updateRange()};picker.appendChild(b);});
+const range=document.getElementById('range');const rval=document.getElementById('rval');function updateRange(){rval.textContent=range.value;}range.oninput=updateRange;
+const tagLabels=["produktif","lelah","excited","stress","grateful","anxious","fokus","kreatif"];const tagWrap=document.getElementById('tags');tagLabels.forEach(t=>{const s=document.createElement('span');s.textContent=t;s.className='tag';s.onclick=()=>s.classList.toggle('active');tagWrap.appendChild(s);});
+function renderLast(){const moods=getMoods();const b=document.getElementById('last');if(!moods.length)return;b.innerHTML=`<div class="entry"><h4>${new Date(moods[0].createdAt).toLocaleString()} — <b>${moods[0].score}/10 ${moods[0].emoji}</b></h4><p>${moods[0].note||''}</p></div>`;}renderLast();
+document.getElementById('saveMood').onclick=()=>{const score=+range.value;const emoji=document.querySelector('.emoji-picker button.active')?.textContent||'😊';const note=document.getElementById('note').value;const tags=[...document.querySelectorAll('.tag.active')].map(t=>t.textContent);const data={score,emoji,note,tags,createdAt:new Date().toISOString()};const list=getMoods();list.unshift(data);setMoods(list);alert('Mood tersimpan');document.getElementById('note').value='';document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));renderLast();renderDashboard();renderHistory();};
+
+/* ---------- DASHBOARD ---------- */
+function renderDashboard(){const moods=getMoods();if(!moods.length)return;const today=moods[0];document.getElementById('dashToday').textContent=`${today.score}/10`;document.getElementById('dashStreak').textContent=`${moods.length} hari`;const month=moods.filter(m=>new Date(m.createdAt).getMonth()===new Date().getMonth()).length;document.getElementById('dashMonth').textContent=month;const recent=document.getElementById('dashRecent');recent.innerHTML='';moods.slice(0,5).forEach(m=>{const li=document.createElement('li');li.className='entry';li.innerHTML=`<h4>${new Date(m.createdAt).toLocaleDateString()} — <b>${m.score}/10</b> ${m.emoji}</h4>`;recent.appendChild(li);});}renderDashboard();
+
+/* ---------- HISTORY ---------- */
+function renderHistory(){const list=document.getElementById('histList');const moods=getMoods();if(!moods.length){list.innerHTML='<p class="muted">Belum ada data.</p>';return;}document.getElementById('statAvg').textContent=(moods.reduce((a,b)=>a+b.score,0)/moods.length).toFixed(1);document.getElementById('statTotal').textContent=moods.length;document.getElementById('statBest').textContent=`${moods.reduce((p,c)=>c.score>p.score?c:p,moods[0]).score}/10`;list.innerHTML='';moods.forEach(m=>{const li=document.createElement('li');li.className='entry';li.innerHTML=`<h4>${new Date(m.createdAt).toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'})} — <b>${m.score}/10</b> ${m.emoji}</h4><p>${m.note||''}</p><div class='chips'>${(m.tags||[]).map(t=>`<span class='chip'>${t}</span>`).join('')}</div>`;list.appendChild(li);});}
+
+/* ---------- REFLECTION ---------- */
+document.querySelectorAll('.tab').forEach(tab=>tab.onclick=()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');if(tab.dataset.tab==='today'){document.getElementById('reflectForm').classList.remove('hidden');document.getElementById('refList').classList.add('hidden');}else{document.getElementById('reflectForm').classList.add('hidden');document.getElementById('refList').classList.remove('hidden');renderRefLog();}});
+document.getElementById('saveRef').onclick=()=>{const q1=document.getElementById('q1').value.trim();const q2=document.getElementById('q2').value.trim();const q3=document.getElementById('q3').value.trim();const q4=document.getElementById('q4').value.trim();if(!(q1||q2||q3||q4)){alert('Isi minimal satu kolom');return;}const list=getRefs();list.unshift({q1,q2,q3,q4,date:new Date().toISOString()});setRefs(list);alert('Refleksi tersimpan');document.querySelectorAll('#reflectForm textarea').forEach(t=>t.value='');};
+function renderRefLog(){const ul=document.getElementById('refList');const refs=getRefs();if(!refs.length){ul.innerHTML='<p class="muted">Belum ada data.</p>';return;}ul.innerHTML='';refs.forEach(r=>{const li=document.createElement('li');li.className='entry';li.innerHTML=`<h4>${new Date(r.date).toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'})}</h4><p><b>🌟</b> ${r.q1||'-'}</p><p><b>⚡</b> ${r.q2||'-'}</p><p><b>💡</b> ${r.q3||'-'}</p><p><b>🎯</b> ${r.q4||'-'}</p>`;ul.appendChild(li);});}
+</script>
+</body>
+</html>

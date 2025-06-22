@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Refleksi Harian – Teman Suasana</title>
+<link rel="stylesheet" href="../css/styles.css"/></head><body>
+<div class="wrapper">
+  <aside class="sidebar">
+    <h2>🔔 Teman Suasana</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="checkin.html">Check‑in Mood</a></li>
+      <li><a href="history.html">Riwayat Mood</a></li>
+      <li><a class="active" href="reflection.html">Refleksi Harian</a></li>
+    </ul>
+  </aside>
+  <main class="main">
+    <h1>Refleksi Harian</h1><p>Tuliskan insight dari hari kamu.</p>
+    <div class="tabs">
+      <div class="tab active" id="tabToday">Refleksi Hari Ini</div>
+      <div class="tab" id="tabLog">Riwayat</div>
+    </div>
+    <form id="reflectionForm">
+      <label>🌟 Hal terbaik hari ini?
+        <textarea id="best" rows="3" required></textarea>
+      </label>
+      <label>⚡ Tantangan hari ini?
+        <textarea id="challenge" rows="3" required></textarea>
+      </label>
+      <label>💡 Pelajaran hari ini?
+        <textarea id="lesson" rows="3" required></textarea>
+      </label>
+      <label>🎯 Harapan besok?
+        <textarea id="hope" rows="3" required></textarea>
+      </label>
+      <button type="submit">Simpan Refleksi</button>
+    </form>
+    <div id="reflectionLog" style="display:none"></div>
+  </main>
+</div>
+<script type="module" src="../js/reflection.js"></script>
+</body></html>

@@ -1,0 +1,16 @@
+# Backend
+.env
+*.log
+bin/
+vendor/
+node_modules/
+
+# Frontend
+.DS_Store
+dist/
+*.zip
+
+# Golang
+*.exe
+*.out
+*.test
