@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      - MONGOSTRING=mongodb://mongo:27017
+
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      - API_URL=http://backend:8080
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:latest

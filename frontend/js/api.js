@@ -1,5 +1,5 @@
 /* ========= Konfigurasi ========= */
-const API = "http://localhost:8080/api";   // ganti kalau port/server beda
+const API = "/api";   // ganti kalau port/server beda
 const LS_MOODS       = "ts_moods_offline";
 const LS_REFLECTIONS = "ts_refs_offline";
 
