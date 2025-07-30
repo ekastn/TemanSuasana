@@ -1,22 +1,117 @@
-<!DOCTYPE html><html lang="id"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Riwayat Mood – Teman Suasana</title>
-<link rel="stylesheet" href="../css/styles.css"/></head><body>
-<div class="wrapper">
-  <aside class="sidebar">
-    <h2>🔔 Teman Suasana</h2>
-    <ul>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="checkin.html">Check‑in Mood</a></li>
-      <li><a class="active" href="history.html">Riwayat Mood</a></li>
-      <li><a href="reflection.html">Refleksi Harian</a></li>
-    </ul>
-  </aside>
-  <main class="main">
-    <h1>Riwayat Mood</h1><p>Lihat perjalanan mood kamu.</p>
-    <section class="stats" id="summaryBoxes"></section>
-    <div id="historyList"></div>
-  </main>
-</div>
-<script type="module" src="../js/history.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riwayat Mood - Teman Suasana</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    .tab-btn-main {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      padding: 0.9rem 1.5rem;
+      font-size: 1.08rem;
+      box-shadow: 0 2px 8px rgba(60,64,198,0.08);
+      transition: background 0.2s, transform 0.2s;
+      margin-right: 0.5rem;
+    }
+    .tab-btn-main.active,
+    .tab-btn-main:active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .tab-btn-main:hover:not(.active) {
+      background: var(--accent-dark);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size:1.5rem;">🔔</span>
+        <h2 class="sidebar-brand">Teman Suasana</h2>
+        <p class="sidebar-subtitle">Personal Reflection</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="checkin.html" class="nav-item"><span class="nav-icon">😊</span>Check-in Mood</a>
+        <a href="history.html" class="nav-item active"><span class="nav-icon">📚</span>Riwayat Mood</a>
+        <a href="reflection.html" class="nav-item"><span class="nav-icon">📝</span>Refleksi Harian</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="theme-toggle">
+          <span class="theme-icon">🌙</span>
+          <span class="theme-text">Dark Mode</span>
+        </button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="main-content">
+        <div class="page-header">
+          <h2>Riwayat Mood</h2>
+          <p>Semua suasana hati yang pernah kamu catat.</p>
+        </div>
+        <div class="tab-switcher">
+          <button class="tab-btn tab-btn-main active" id="tab-checkin"><span style="font-size:1.2rem; margin-right:0.5rem;">😊</span>Mood Check-in</button>
+          <button class="tab-btn tab-btn-main" id="tab-reflection"><span style="font-size:1.2rem; margin-right:0.5rem;">📝</span>Refleksi</button>
+        </div>
+        <div id="checkin-history" class="tab-content">
+          <div class="entry">
+            <div class="entry-date">27 Juli 2025</div>
+            <div>😊 Senang</div>
+            <div class="entry-tags"><span class="entry-tag">produktif</span></div>
+          </div>
+          <div class="entry">
+            <div class="entry-date">26 Juli 2025</div>
+            <div>😢 Sedih</div>
+            <div class="entry-tags"><span class="entry-tag">lelah</span></div>
+          </div>
+        </div>
+        <div id="reflection-history" class="tab-content" style="display:none;">
+          <div class="entry" style="border-left:6px solid var(--accent);">
+            <div class="entry-date" style="margin-bottom:0.7rem;"><span style="font-size:1.3rem;">📝</span> <strong>27 Juli 2025</strong></div>
+            <div style="margin-bottom:0.5rem;"><span style="color:var(--primary-dark);font-weight:600;">Hal terbaik:</span> <span style="color:var(--text);">Bertemu teman lama</span></div>
+            <div style="margin-bottom:0.5rem;"><span style="color:var(--accent-dark);font-weight:600;">Tantangan:</span> <span style="color:var(--text);">Tugas menumpuk</span></div>
+            <div style="margin-bottom:0.5rem;"><span style="color:var(--primary-dark);font-weight:600;">Pelajaran:</span> <span style="color:var(--text);">Lebih baik mengatur waktu</span></div>
+            <div><span style="color:var(--accent-dark);font-weight:600;">Harapan:</span> <span style="color:var(--text);">Lebih produktif besok</span></div>
+          </div>
+          <div class="entry" style="border-left:6px solid var(--accent);">
+            <div class="entry-date" style="margin-bottom:0.7rem;"><span style="font-size:1.3rem;">📝</span> <strong>26 Juli 2025</strong></div>
+            <div style="margin-bottom:0.5rem;"><span style="color:var(--primary-dark);font-weight:600;">Hal terbaik:</span> <span style="color:var(--text);">Selesai project</span></div>
+            <div style="margin-bottom:0.5rem;"><span style="color:var(--accent-dark);font-weight:600;">Tantangan:</span> <span style="color:var(--text);">Kurang tidur</span></div>
+            <div style="margin-bottom:0.5rem;"><span style="color:var(--primary-dark);font-weight:600;">Pelajaran:</span> <span style="color:var(--text);">Pentingnya istirahat</span></div>
+            <div><span style="color:var(--accent-dark);font-weight:600;">Harapan:</span> <span style="color:var(--text);">Tidur cukup</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    // Tab switch logic
+    const tabCheckin = document.getElementById('tab-checkin');
+    const tabReflection = document.getElementById('tab-reflection');
+    const checkinHistory = document.getElementById('checkin-history');
+    const reflectionHistory = document.getElementById('reflection-history');
+    tabCheckin.addEventListener('click', function() {
+      tabCheckin.classList.add('active');
+      tabReflection.classList.remove('active');
+      checkinHistory.style.display = '';
+      reflectionHistory.style.display = 'none';
+    });
+    tabReflection.addEventListener('click', function() {
+      tabReflection.classList.add('active');
+      tabCheckin.classList.remove('active');
+      reflectionHistory.style.display = '';
+      checkinHistory.style.display = 'none';
+    });
+  </script>
+  <script src="../js/history.js"></script>
+  <script src="../js/darkmode.js"></script>
+</body>
+</html>

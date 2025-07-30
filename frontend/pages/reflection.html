@@ -1,40 +1,61 @@
-<!DOCTYPE html><html lang="id"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Refleksi Harian – Teman Suasana</title>
-<link rel="stylesheet" href="../css/styles.css"/></head><body>
-<div class="wrapper">
-  <aside class="sidebar">
-    <h2>🔔 Teman Suasana</h2>
-    <ul>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="checkin.html">Check‑in Mood</a></li>
-      <li><a href="history.html">Riwayat Mood</a></li>
-      <li><a class="active" href="reflection.html">Refleksi Harian</a></li>
-    </ul>
-  </aside>
-  <main class="main">
-    <h1>Refleksi Harian</h1><p>Tuliskan insight dari hari kamu.</p>
-    <div class="tabs">
-      <div class="tab active" id="tabToday">Refleksi Hari Ini</div>
-      <div class="tab" id="tabLog">Riwayat</div>
-    </div>
-    <form id="reflectionForm">
-      <label>🌟 Hal terbaik hari ini?
-        <textarea id="best" rows="3" required></textarea>
-      </label>
-      <label>⚡ Tantangan hari ini?
-        <textarea id="challenge" rows="3" required></textarea>
-      </label>
-      <label>💡 Pelajaran hari ini?
-        <textarea id="lesson" rows="3" required></textarea>
-      </label>
-      <label>🎯 Harapan besok?
-        <textarea id="hope" rows="3" required></textarea>
-      </label>
-      <button type="submit">Simpan Refleksi</button>
-    </form>
-    <div id="reflectionLog" style="display:none"></div>
-  </main>
-</div>
-<script type="module" src="../js/reflection.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refleksi Harian - Teman Suasana</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size:1.5rem;">🔔</span>
+        <h2 class="sidebar-brand">Teman Suasana</h2>
+        <p class="sidebar-subtitle">Personal Reflection</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="checkin.html" class="nav-item"><span class="nav-icon">😊</span>Check-in Mood</a>
+        <a href="history.html" class="nav-item"><span class="nav-icon">📚</span>Riwayat Mood</a>
+        <a href="reflection.html" class="nav-item active"><span class="nav-icon">📝</span>Refleksi Harian</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="theme-toggle">
+          <span class="theme-icon">🌙</span>
+          <span class="theme-text">Dark Mode</span>
+        </button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="main-content">
+        <div class="page-header">
+          <h2>Refleksi Harian</h2>
+          <p>Renungkan hari kamu dan catat di sini.</p>
+        </div>
+        <form id="reflection-form">
+          <div class="form-group">
+            <label for="best">Hal terbaik hari ini</label>
+            <textarea id="best" name="best" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="challenge">Tantangan terbesar</label>
+            <textarea id="challenge" name="challenge" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="learned">Pelajaran hari ini</label>
+            <textarea id="learned" name="learned" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="hope">Harapan untuk besok</label>
+            <textarea id="hope" name="hope" rows="2"></textarea>
+          </div>
+          <button type="submit">Simpan Refleksi</button>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="../js/reflection.js"></script>
+  <script src="../js/darkmode.js"></script>
+</body>
+</html>

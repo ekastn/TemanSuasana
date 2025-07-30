@@ -1,44 +1,95 @@
-<!DOCTYPE html><html lang="id"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Check‑in Mood – Teman Suasana</title>
-<link rel="stylesheet" href="../css/styles.css"/></head><body>
-<div class="wrapper">
-  <aside class="sidebar">
-    <h2>🔔 Teman Suasana</h2>
-    <ul>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a class="active" href="checkin.html">Check‑in Mood</a></li>
-      <li><a href="history.html">Riwayat Mood</a></li>
-      <li><a href="reflection.html">Refleksi Harian</a></li>
-    </ul>
-  </aside>
-  <main class="main">
-    <h1>Check‑in Mood</h1><p>Catat suasana hati kamu hari ini.</p>
-    <div class="stats" style="flex-wrap:nowrap">
-      <form id="checkinForm" style="flex:1">
-        <h3>Pilih Mood</h3>
-        <div style="display:flex;gap:.5rem;margin:.5rem 0">
-          <label><input type="radio" name="mood" value="🤯" required/> 🤯</label>
-          <label><input type="radio" name="mood" value="😡"/> 😡</label>
-          <label><input type="radio" name="mood" value="😐"/> 😐</label>
-          <label><input type="radio" name="mood" value="😊"/> 😊</label>
-          <label><input type="radio" name="mood" value="😆"/> 😆</label>
-        </div>
-        <label>Nilai (1‑10):
-          <input type="range" id="score" min="1" max="10" value="5"/>
-          <span id="scoreVal">5</span>/10
-        </label>
-        <label>Catatan
-          <textarea id="note" rows="4" placeholder="Catatan (opsional)"></textarea>
-        </label>
-        <h3>Tag perasaan</h3><div id="tagList" style="display:flex;flex-wrap:wrap;gap:.5rem"></div>
-        <button type="submit">Simpan Mood</button>
-      </form>
-      <div style="flex:1">
-        <h3>Check‑in Terakhir</h3><div id="lastEntry"></div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Check-in Mood - Teman Suasana</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span style="font-size:1.5rem;">🔔</span>
+        <h2 class="sidebar-brand">Teman Suasana</h2>
+        <p class="sidebar-subtitle">Personal Reflection</p>
       </div>
-    </div>
-  </main>
-</div>
-<script type="module" src="../js/checkin.js"></script>
-</body></html>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="checkin.html" class="nav-item active"><span class="nav-icon">😊</span>Check-in Mood</a>
+        <a href="history.html" class="nav-item"><span class="nav-icon">📚</span>Riwayat Mood</a>
+        <a href="reflection.html" class="nav-item"><span class="nav-icon">📝</span>Refleksi Harian</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="theme-toggle">
+          <span class="theme-icon">🌙</span>
+          <span class="theme-text">Dark Mode</span>
+        </button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="main-content">
+        <div class="page-header">
+          <h2>Check-in Mood</h2>
+          <p>Bagikan suasana hati kamu hari ini.</p>
+        </div>
+        <form id="mood-form">
+          <div class="form-group">
+            <label for="mood">Mood</label>
+            <select id="mood" name="mood">
+              <option value="senang">😊 Senang</option>
+              <option value="sedih">😢 Sedih</option>
+              <option value="marah">😡 Marah</option>
+              <option value="biasa">😐 Biasa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="intensity">Intensitas</label>
+            <div style="display:flex;align-items:center;gap:1rem;">
+              <span id="emoji-preview" style="font-size:2.2rem;">😐</span>
+              <input type="range" id="intensity" name="intensity" min="1" max="10" value="5" />
+              <span id="intensity-value">5</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tags">Tag Mood</label>
+            <input type="text" id="tags" name="tags" placeholder="produktif, lelah, dsb" />
+          </div>
+          <div class="form-group">
+            <label for="notes">Catatan</label>
+            <textarea id="notes" name="notes" placeholder="Ceritakan lebih detail..." rows="3"></textarea>
+          </div>
+          <button type="submit">Simpan</button>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="../js/checkin.js"></script>
+  <script src="../js/darkmode.js"></script>
+  <script>
+const intensitySlider = document.getElementById('intensity');
+const emojiPreview = document.getElementById('emoji-preview');
+const intensityValue = document.getElementById('intensity-value');
+const moodSelect = document.getElementById('mood');
+
+function getEmojiByIntensity(val) {
+  if (val >= 8) return '😊'; // Senang
+  if (val >= 6) return '😐'; // Biasa
+  if (val >= 4) return '😢'; // Sedih
+  return '😡'; // Marah
+}
+intensitySlider.addEventListener('input', function() {
+  emojiPreview.textContent = getEmojiByIntensity(+this.value);
+  intensityValue.textContent = this.value;
+});
+moodSelect.addEventListener('change', function() {
+  // Optional: update emoji preview by mood select
+  const val = moodSelect.value;
+  if (val === 'senang') emojiPreview.textContent = '😊';
+  else if (val === 'biasa') emojiPreview.textContent = '😐';
+  else if (val === 'sedih') emojiPreview.textContent = '😢';
+  else emojiPreview.textContent = '😡';
+});
+</script>
+</body>
+</html>
