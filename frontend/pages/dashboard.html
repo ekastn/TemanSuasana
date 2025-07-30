@@ -2,45 +2,64 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard – Teman Suasana</title>
-  <link rel="stylesheet" href="../css/styles.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Teman Suasana</title>
+  <link rel="stylesheet" href="../css/styles.css" />
 </head>
 <body>
   <div class="wrapper">
-
-    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <h2>🔔 Teman Suasana</h2>
-      <ul>
-        <li class="active" data-page="dashboard"><a href="dashboard.html">Dashboard</a></li>
-        <li data-page="checkin"><a href="checkin.html">Check‑in Mood</a></li>
-        <li data-page="history"><a href="history.html">Riwayat Mood</a></li>
-        <li data-page="reflection"><a href="reflection.html">Refleksi Harian</a></li>
-      </ul>
-
-      <!-- 🌙 TOGGLE DARK MODE -->
-      <div class="dark-toggle">
-        <input type="checkbox" id="darkToggle" />
-        <label for="darkToggle">Dark Mode</label>
+      <div class="sidebar-header">
+        <span style="font-size:1.5rem;">🔔</span>
+        <h2 class="sidebar-brand">Teman Suasana</h2>
+        <p class="sidebar-subtitle">Personal Reflection</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="checkin.html" class="nav-item"><span class="nav-icon">😊</span>Check-in Mood</a>
+        <a href="history.html" class="nav-item"><span class="nav-icon">📚</span>Riwayat Mood</a>
+        <a href="reflection.html" class="nav-item"><span class="nav-icon">📝</span>Refleksi Harian</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="theme-toggle">
+          <span class="theme-icon">🌙</span>
+          <span class="theme-text">Dark Mode</span>
+        </button>
       </div>
     </aside>
-
-    <!-- MAIN -->
     <main class="main">
-      <h1>Dashboard</h1>
-      <p>Ringkasan suasana hati & aktivitas kamu.</p>
-      <section class="stats" id="statBoxes"></section>
-      <h2>5 Check‑in Terbaru</h2>
-      <div id="recentList"></div>
+      <div class="main-content">
+        <div class="page-header">
+          <h2>Dashboard</h2>
+          <p>Selamat datang! Berikut ringkasan suasana hati kamu.</p>
+        </div>
+        <div class="stats">
+          <div class="stat-card">
+            <h3>9/10</h3>
+            <p>Hari Terbaik</p>
+          </div>
+          <div class="stat-card">
+            <h3>4</h3>
+            <p>Total Check-in</p>
+          </div>
+        </div>
+        <div class="recent-entries">
+          <h4>Riwayat Terbaru</h4>
+          <div class="entry">
+            <div class="entry-date">27 Juli 2025</div>
+            <div>😊 Senang</div>
+            <div class="entry-tags"><span class="entry-tag">produktif</span></div>
+          </div>
+          <div class="entry">
+            <div class="entry-date">26 Juli 2025</div>
+            <div>😢 Sedih</div>
+            <div class="entry-tags"><span class="entry-tag">lelah</span></div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
-
-  <!-- SCRIPTS -->
-  <script type="module">
-    import { initDarkMode } from "../js/darkmode.js";
-    import "../js/dashboard.js";
-    initDarkMode();
-  </script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/darkmode.js"></script>
 </body>
 </html>
